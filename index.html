@@ -28,6 +28,7 @@
 			}
 
 			#scoreboard {
+				background: rgba(1, 1, 1, 0.25);
 				border-top: 1px solid #00ff00;
 				height: 75px;
 				width: 100%;
@@ -59,6 +60,35 @@
 
 			setInterval(() => {
 				snake.renderWormTail(WORM_TAIL, movingDirection);
+
+				switch (true) {
+					case wormHeadPosition.x < 0:
+						wormHeadPosition.x =
+							Math.floor(
+								snake.canvas.width / snake.gameBoardTileSize
+							) - 1;
+						break;
+					case wormHeadPosition.x >
+						Math.floor(
+							snake.canvas.width / snake.gameBoardTileSize
+						) -
+							1:
+						wormHeadPosition.x = 0;
+						break;
+					case wormHeadPosition.y < 0:
+						wormHeadPosition.y =
+							Math.floor(
+								snake.canvas.height / snake.gameBoardTileSize
+							) - 1;
+						break;
+					case wormHeadPosition.y >
+						Math.floor(
+							snake.canvas.height / snake.gameBoardTileSize
+						) -
+							1:
+						wormHeadPosition.y = 0;
+						break;
+				}
 
 				WORM_TAIL.push({
 					x: wormHeadPosition.x,

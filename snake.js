@@ -50,10 +50,8 @@ class Snake {
 	}
 
 	resizeCanvas() {
-		this.canvas.width = Math.floor(document.body.clientWidth);
-		this.canvas.height = Math.floor(
-			document.body.clientHeight - this.scoreBoardHeight
-		);
+		this.canvas.width = document.body.clientWidth;
+		this.canvas.height = document.body.clientHeight - this.scoreBoardHeight;
 	}
 
 	paintCanvasBackground() {
@@ -63,7 +61,6 @@ class Snake {
 
 	renderWormTail(wormTail, direction) {
 		this.paintCanvasBackground();
-
 		this.ctx.fillStyle = "#00ff00";
 
 		wormTail.forEach((wormBlock) => {
