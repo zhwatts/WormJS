@@ -11,25 +11,46 @@
 		<script src="./snake.js"></script>
 
 		<style>
+			* {
+				box-sizing: border-box;
+			}
+
 			html,
 			body {
 				background: #2c3941;
+				color: #f0f0f0;
+				font-family: "Courier New", Courier, monospace;
 				height: 100%;
 				margin: 0;
+				overflow: hidden;
 				padding: 0;
 				width: 100%;
+			}
+
+			#scoreboard {
+				border-top: 1px solid #00ff00;
+				height: 75px;
+				width: 100%;
+				padding: 10px;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
 			}
 		</style>
 	</head>
 	<body>
 		<canvas id="snakeCanvas"></canvas>
+		<div id="scoreboard">
+			<div>SCORE: <span id="score">0</span></div>
+		</div>
 	</body>
 	<script>
 		window.onload = function () {
-			var snake = new Snake("snakeCanvas");
-			var wormHeadPosition = snake.wormHead;
-			var wormTail = [];
-			var movingDirection = { x: 0, y: 0 };
+			const snake = new Snake("snakeCanvas", 120, 75);
+			const WORM_TAIL = [];
+
+			let wormHeadPosition = snake.wormHead;
+			let movingDirection = { x: 0, y: 0 };
 
 			document.addEventListener(
 				"keydown",
@@ -37,20 +58,23 @@
 			);
 
 			setInterval(() => {
-				console.log(wormTail);
+				snake.renderWormTail(WORM_TAIL, movingDirection);
 
-				snake.renderWormTail(wormTail, movingDirection);
+				WORM_TAIL.push({
+					x: wormHeadPosition.x,
+					y: wormHeadPosition.y,
+				});
 
-				wormTail.push({ x: wormHeadPosition.x, y: wormHeadPosition.y });
-
-				while (wormTail.length > 5) {
-					wormTail.shift();
+				while (WORM_TAIL.length > 5) {
+					WORM_TAIL.shift();
 				}
 
 				wormHeadPosition = {
 					x: parseInt(wormHeadPosition.x + movingDirection.x),
 					y: parseInt(wormHeadPosition.y + movingDirection.y),
 				};
+
+				document.getElementById("score").innerHTML = WORM_TAIL.length;
 			}, snake.frameRate);
 		};
 	</script>
