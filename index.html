@@ -1,0 +1,57 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>SNAKE</title>
+
+		<script src="./snake.js"></script>
+
+		<style>
+			html,
+			body {
+				background: #2c3941;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="snakeCanvas"></canvas>
+	</body>
+	<script>
+		window.onload = function () {
+			var snake = new Snake("snakeCanvas");
+			var wormHeadPosition = snake.wormHead;
+			var wormTail = [];
+			var movingDirection = { x: 0, y: 0 };
+
+			document.addEventListener(
+				"keydown",
+				(e) => (movingDirection = snake.moveWormHead(e))
+			);
+
+			setInterval(() => {
+				console.log(wormTail);
+
+				snake.renderWormTail(wormTail, movingDirection);
+
+				wormTail.push({ x: wormHeadPosition.x, y: wormHeadPosition.y });
+
+				while (wormTail.length > 5) {
+					wormTail.shift();
+				}
+
+				wormHeadPosition = {
+					x: parseInt(wormHeadPosition.x + movingDirection.x),
+					y: parseInt(wormHeadPosition.y + movingDirection.y),
+				};
+			}, snake.frameRate);
+		};
+	</script>
+</html>
